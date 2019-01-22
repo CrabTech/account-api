@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ravel.contas.entity.Agencia;
 import com.ravel.contas.repository.AgenciaRepository;
 import com.ravel.contas.repository.EnderecoRepository;
+import com.ravel.contas.service.AgenciaService;
 
 @RestController
 @RequestMapping(value="/rest/agencia")
@@ -22,6 +23,9 @@ public class AgenciaController {
 	
 	@Autowired
 	AgenciaRepository agenciaRepository;
+	
+	@Autowired
+	AgenciaService agenciaService;
 	
 	@Autowired
 	EnderecoRepository enderecoRepository;
@@ -42,13 +46,7 @@ public class AgenciaController {
 			consumes=MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public  @ResponseBody Agencia saveAgencia(@RequestBody Agencia ag) throws Exception {
-	
-		try {
-			agenciaRepository.save(ag);	
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return ag;
+			return agenciaService.salvarAgencia(ag);
 	}
 	
 	@Transactional
@@ -56,5 +54,7 @@ public class AgenciaController {
 	public  void deleteAgencia(@PathVariable Integer id) {
 		 agenciaRepository.deleteById(id);
 	}
+	
+	
 	
 }

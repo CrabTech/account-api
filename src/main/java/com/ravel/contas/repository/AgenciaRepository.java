@@ -19,4 +19,6 @@ public interface AgenciaRepository extends JpaRepository<Agencia, Long> {
 	Agencia save(Agencia ag);
 	
 	void deleteById(Integer id);
+	
+	void findByCdAgencia(String cdAgencia);
 }
