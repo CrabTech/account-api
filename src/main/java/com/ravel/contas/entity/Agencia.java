@@ -28,7 +28,7 @@ public class Agencia implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
-	@Column(name="cd_agencia", length=10, nullable=false)
+	@Column(name="cd_agencia", length=10, nullable=false, unique=true)
 	private String cdAgencia;
 	
 	

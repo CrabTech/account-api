@@ -39,9 +39,5 @@ public class EnderecoController {
 			return enderecoRepository.save(end); 
 
 	}
-	
-	@RequestMapping(value="/deletar/{id}", method=RequestMethod.DELETE)
-	public Endereco deleteEndereco(@PathVariable Integer id) {
-		return enderecoRepository.deleteById(id);
-	}
+	 	
 }
