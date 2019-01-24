@@ -5,7 +5,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,22 +33,36 @@ public class AgenciaController {
 	EnderecoRepository enderecoRepository;
 	
 	
-	@RequestMapping(value="/all", method=RequestMethod.GET )
+	@RequestMapping(value="/all", method=RequestMethod.GET)
 	public List<Agencia> getAll(){
-		return agenciaRepository.findAll();
+		return agenciaService.recuperarTodas();
 	}
 	
-	
 	@RequestMapping(value="/recuperar/{id}", method=RequestMethod.GET)
-	public Agencia getByAgencia(@PathVariable Integer id) {
-		return agenciaRepository.findById(id);
+	public ResponseEntity<?> getByAgencia(@PathVariable Integer id) {
+		
+		try {
+			Agencia agenciaRecovery = new Agencia();
+			agenciaRecovery = agenciaService.recuperarPorId(id);
+			return new ResponseEntity<>(agenciaRecovery, HttpStatus.OK);
+		} catch (Exception e) {
+			String mensagem = e.getMessage().toString();
+			return new ResponseEntity<>(mensagem,HttpStatus.PRECONDITION_FAILED);
+		} 
+
 	}
 	
 	@RequestMapping(value="/salvar", method=RequestMethod.POST,
 			consumes=MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public  @ResponseBody Agencia saveAgencia(@RequestBody Agencia ag) throws Exception {
-			return agenciaService.salvarAgencia(ag);
+	public  @ResponseBody void saveAgencia(@RequestBody Agencia ag) throws Exception {
+		try {
+			agenciaService.salvarAgencia(ag);
+			
+		} catch (Exception e) {
+			new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED).getStatusCode();
+		}
+			
 	}
 	
 	@Transactional
