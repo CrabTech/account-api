@@ -20,16 +20,12 @@ public class AgenciaService {
 
 	
 	@Transactional 
-	public Agencia salvarAgencia(Agencia ag) throws Exception {
+	public Agencia salvarAgencia(Agencia ag) {
 		
 		Agencia agenciaPersist = new Agencia();
-	
 		agenciaPersist.setCdAgencia(ag.getCdAgencia());
 		agenciaPersist.setEndereco(ag.getEndereco());
 		
-		if(agenciaPersist.getCdAgencia() == null || agenciaPersist.getEndereco() == null) {
-			throw new Exception();
-		} 
 		return agenciaRepository.save(agenciaPersist);
 	}
 
@@ -39,14 +35,8 @@ public class AgenciaService {
 	}
 
 
-	public Agencia recuperarPorId(Integer id) throws Exception {
-		
+	public Agencia recuperarPorId(Integer id) { 
 		Agencia agenciaRecuperada = agenciaRepository.findById(id); 
-		
-		if(agenciaRecuperada == null) {
-			throw new Exception();
-		} 
-		
 		return agenciaRecuperada;
 	}
 
